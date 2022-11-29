@@ -1,1 +1,1 @@
-import { pollsCollection } from '../database/db';
+import { pollsCollection } from '../database/db.js';

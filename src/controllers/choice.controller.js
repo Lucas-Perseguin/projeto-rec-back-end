@@ -1,1 +1,1 @@
-import { choicesCollection } from '../database/db';
+import { choicesCollection } from '../database/db.js';

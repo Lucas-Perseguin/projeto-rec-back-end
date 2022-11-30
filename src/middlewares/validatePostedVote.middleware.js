@@ -15,8 +15,8 @@ export default async function validatePostedVote(req, res, next) {
     const pollFound = await pollsCollection.findOne({
       _id: new ObjectId(choiceFound.pollId),
     });
-    const moment = dayjs().format('YYYY-MM-DD HH:mm');
-    if (moment.isAfter(pollFound.expireAt, 'minute')) {
+    const moment = dayjs();
+    if (moment.isAfter(dayjs(pollFound.expireAt), 'minute')) {
       return res.sendStatus(403);
     }
     res.locals.moment = moment;

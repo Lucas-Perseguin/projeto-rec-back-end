@@ -20,7 +20,7 @@ export default async function validatePostedChoice(req, res, next) {
       return res.sendStatus(409);
     }
     const moment = dayjs().format('YYYY-MM-DD HH:mm');
-    if (pollFound.expireAt.isAfter(moment, 'minute')) {
+    if (moment.isAfter(pollFound.expireAt, 'minute')) {
       return res.sendStatus(403);
     }
     next();

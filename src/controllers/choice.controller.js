@@ -1,4 +1,4 @@
-import { choicesCollection } from '../database/db.js';
+import { choicesCollection, votesCollection } from '../database/db.js';
 
 export async function postChoice(req, res) {
   const { title, pollId } = req.body;
@@ -12,7 +12,10 @@ export async function postChoice(req, res) {
 }
 
 export async function voteOnChoice(req, res) {
+  const { moment, choiceId } = res.locals;
   try {
+    await votesCollection.insertOne({ choiceId, createdAt: moment });
+    res.sendStatus(201);
   } catch (err) {
     res.sendStatus(500);
   }

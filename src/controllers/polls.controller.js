@@ -19,6 +19,8 @@ export async function postPoll(req, res) {
 
 export async function getPolls(req, res) {
   try {
+    const polls = await pollsCollection.find().toArray();
+    res.status(200).send(polls);
   } catch (err) {
     res.sendStatus(500);
   }

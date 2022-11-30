@@ -58,7 +58,7 @@ export async function getPollResult(req, res) {
     const votes = [];
     for (let i = 0; i < choices.length; i++) {
       const votesForChoice = await votesCollection
-        .find({ choiceId: choices[i]._id })
+        .find({ choiceId: choices[i]._id.toString() })
         .toArray();
       votes.push({ title: choices[i].title, votes: votesForChoice.length });
     }

@@ -19,7 +19,7 @@ export default async function validatePostedVote(req, res, next) {
     if (moment.isAfter(dayjs(pollFound.expireAt), 'minute')) {
       return res.sendStatus(403);
     }
-    res.locals.moment = moment;
+    res.locals.moment = moment.format('YYYY-MM-DD HH:mm');
     res.locals.choiceId = id;
     next();
   } catch (err) {

@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
-import { pollsCollection } from '../database/db.js';
+import { ObjectId } from 'mongodb';
+import { choicesCollection, pollsCollection } from '../database/db.js';
 
 export async function postPoll(req, res) {
   const { title, expireAt } = req.body;
@@ -27,7 +28,15 @@ export async function getPolls(req, res) {
 }
 
 export async function getPollChoices(req, res) {
+  const { id } = req.params;
+
   try {
+    const pollFound = await pollsCollection.findOne({ _id: new ObjectId(id) });
+    if (!pollFound) {
+      return res.sendStatus(404);
+    }
+    const pollChoices = await choicesCollection.find({ pollId: id });
+    res.status(200).send(pollChoices);
   } catch (err) {
     res.sendStatus(500);
   }

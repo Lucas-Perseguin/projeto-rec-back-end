@@ -34,12 +34,23 @@ export async function getPolls(req, res) {
 export async function getPollChoices(req, res) {
   const { id } = req.params;
 
+  if (id.length !== 24) {
+    return res.sendStatus(400);
+  }
+
+  if (!ObjectId.isValid(id)) {
+    return res.sendStatus(404);
+  }
+
   try {
     const pollFound = await pollsCollection.findOne({ _id: new ObjectId(id) });
     if (!pollFound) {
       return res.sendStatus(404);
     }
     const pollChoices = await choicesCollection.find({ pollId: id }).toArray();
+    if (!pollChoices) {
+      return res.sendStatus(404);
+    }
     res.status(200).send(pollChoices);
   } catch (err) {
     res.sendStatus(500);
@@ -48,6 +59,14 @@ export async function getPollChoices(req, res) {
 
 export async function getPollResult(req, res) {
   const { id } = req.params;
+
+  if (id.length !== 24) {
+    return res.sendStatus(400);
+  }
+
+  if (!ObjectId.isValid(id)) {
+    return res.sendStatus(404);
+  }
 
   try {
     const pollFound = await pollsCollection.findOne({ _id: new ObjectId(id) });

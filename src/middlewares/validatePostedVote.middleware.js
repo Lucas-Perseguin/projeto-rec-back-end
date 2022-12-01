@@ -5,6 +5,10 @@ import { choicesCollection, pollsCollection } from '../database/db.js';
 export default async function validatePostedVote(req, res, next) {
   const { id } = req.params;
 
+  if (!ObjectId.isValid(id)) {
+    return res.sendStatus(404);
+  }
+
   try {
     const choiceFound = await choicesCollection.findOne({
       _id: new ObjectId(id),

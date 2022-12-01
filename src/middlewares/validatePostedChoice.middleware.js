@@ -8,6 +8,10 @@ export default async function validatePostedChoice(req, res, next) {
     return res.sendStatus(422);
   }
 
+  if (!ObjectId.isValid(pollId)) {
+    return res.sendStatus(404);
+  }
+
   try {
     const pollFound = await pollsCollection.findOne({
       _id: new ObjectId(pollId),
